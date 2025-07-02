@@ -177,6 +177,25 @@ ddev exec php ./install/index_cli.php \
 # Limpiar archivos temporales
 print_message "Limpiando archivos temporales..."
 ddev exec rm -rf ./prestashop.zip ./prestashop_$PRESTASHOP_VERSION.zip ./install
+# Instalar módulo de copias de seguridad si está disponible
+print_message "Instalando módulo de copias de seguridad..."
+ddev exec bash -c "cd modules && git clone https://github.com/eltictacdicta/ps_copia.git"
+
+# Verificar si el módulo se clonó correctamente
+if ddev exec test -d "./modules/ps_copia"; then
+    print_message "Módulo ps_copia descargado correctamente. Instalando desde PrestaShop..."
+    
+    # Instalar el módulo usando el comando de PrestaShop
+    ddev exec php bin/console prestashop:module install ps_copia
+    
+    if [ $? -eq 0 ]; then
+        print_success "Módulo ps_copia instalado correctamente."
+    else
+        print_warning "No se pudo instalar automáticamente el módulo ps_copia. Podrás instalarlo manualmente desde el panel de administración."
+    fi
+else
+    print_warning "No se pudo descargar el módulo ps_copia desde GitHub."
+fi
 
 # Instalar PHPMyAdmin si se solicita
 if [ $INSTALL_PHPMYADMIN -eq 1 ]; then
