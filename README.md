@@ -13,6 +13,8 @@ Este script automatiza completamente la instalación de PrestaShop en un entorno
 ### Uso Básico
 
 ```bash
+# Descargar el script
+wget https://raw.githubusercontent.com/eltictacdicta/install-prestashop/refs/heads/master/install_prestashop_ddev.sh
 # Hacer el script ejecutable (solo la primera vez)
 chmod +x install_prestashop_ddev.sh
 
